@@ -1,3 +1,47 @@
+<?php
+  session_start(); 
+
+  $userid   = "UserID";
+  $username = "Username";
+  $email    = "Email";
+
+  if(isset($_SESSION['userid']) && isset($_SESSION['username']) && isset($_SESSION['email'])){
+    $userid   = $_SESSION['userid'];
+    $username = $_SESSION['username'];
+    $email    = $_SESSION['email'];
+  }  
+
+  if(isset($_SESSION['resetusernameerrors']) && !empty($_SESSION['resetusernameerrors'])){
+    $err = $_SESSION['resetusernameerrors'];
+      
+      echo "<script>
+               alert('" . $err . "');
+            </script>";  
+    
+      unset($_SESSION['resetusernameerrors']); 
+  }
+
+  if(isset($_SESSION['resetemailerrors']) && !empty($_SESSION['resetemailerrors'])) {
+      $err = $_SESSION['resetemailerrors'];
+      
+      echo "<script>
+               alert('" . $err . "');
+            </script>";  
+    
+      unset($_SESSION['resetemailerrors']); 
+  }
+
+  if(isset($_SESSION['resetpassworderrors']) && !empty($_SESSION['resetpassworderrors'])){
+    $err = $_SESSION['resetpassworderrors'];
+      
+      echo "<script>
+               alert('" . $err . "');
+            </script>";  
+    
+      unset($_SESSION['resetpassworderrors']); 
+  }
+?>    
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -70,12 +114,12 @@
     				<li class="active"><a href="#">Profile</a></li>
     				<li><a href="#">Help</a></li>
     				<li><a href="#">Contact Us</a></li>
-            <li><a href="#">My Notes</a></li>
+            		<li><a href="mainpageloggedin.php">My Notes</a></li>
     			</ul>
 
     			<ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Logged in as <b>username</b></a></li>
-    				<li><a href="#">Logout</a></li>
+            		<li><a href="#">Logged in as <b><?php echo $username ?></b></a></li>
+    				<li><a href="logout.php">Logout</a></li>
     			</ul>
     		</div>
     	</div>
@@ -92,19 +136,19 @@
               <tr data-target="#updateusername" data-toggle="modal">
                 <td>Username</td>
                   
-                <td>value</td>
+                <td id="profileuser"><?php echo $username ?></td>
               </tr>
                           
               <tr data-target="#updateemail" data-toggle="modal">
                 <td>Email</td>
                               
-                <td>value</td>
+                <td id="profileemail"><?php echo $email ?></td>
               </tr>
                           
               <tr data-target="#updatepassword" data-toggle="modal">
                 <td>Password</td>
                               
-                <td>hidden</td>
+                <td>****</td>
               </tr>
             </table>
           </div>
@@ -114,7 +158,7 @@
     
 	
 	  <!--Update username-->    
-    <form method="post" id="updateusernameform">
+    <form method="post" id="updateusernameform" action="resetusername.php">
       <div class="modal fade" id="updateusername" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -132,12 +176,12 @@
               <div class="form-group">
                 <label for="username" >Username:</label>
                 
-                <input class="form-control" type="text" name="username" id="username" maxlength="30" value="<?php echo $username; ?>">
+                <input class="form-control" type="text" name="username" id="username" maxlength="30" value="<?php echo $username ?>">
               </div>
             </div>
               
             <div class="modal-footer">
-              <input class="btn green" name="updateusername" type="submit" value="Submit">
+              <input class="btn green" name="updateusername" type="submit" value="Submit" id="resetuserbutton">
                 
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
             </div>
@@ -147,7 +191,7 @@
     </form>
 
     <!--Update email-->    
-    <form method="post" id="updateemailform">
+    <form method="post" id="updateemailform" action="resetemail.php">
       <div class="modal fade" id="updateemail" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -165,12 +209,12 @@
               <div class="form-group">
                 <label for="email" >Email:</label>
                       
-                <input class="form-control" type="email" name="email" id="email" maxlength="50" value="<?php echo $email ?>">
+                <input class="form-control" type="email" name="email" id="resemail" maxlength="50" value="<?php echo $email ?>">
               </div>
             </div>
           
             <div class="modal-footer">
-              <input class="btn green" name="updateusername" type="submit" value="Submit">
+              <input class="btn green" name="updateusername" type="submit" value="Submit" id="resetemailbuttonn">
               
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
             </div>
@@ -180,7 +224,7 @@
     </form>
       
     <!--Update password-->    
-    <form method="post" id="updatepasswordform">
+    <form method="post" id="updatepasswordform" action="resetpassword.php">
       <div class="modal fade" id="updatepassword" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -198,25 +242,25 @@
               <div class="form-group">
                 <label for="currentpassword" class="sr-only" >Your Current Password:</label>
                 
-                <input class="form-control" type="password" name="currentpassword" id="currentpassword" maxlength="30" placeholder="Your Current Password">
+                <input class="form-control" type="password" name="currentpassword" id="currentpassword" maxlength="30" placeholder="Your Current Password" required>
               </div>
                   
               <div class="form-group">
                 <label for="password" class="sr-only" >Choose a password:</label>
                       
-                <input class="form-control" type="password" name="password" id="password" maxlength="30" placeholder="Choose a password">
+                <input class="form-control" type="password" name="password" id="rpassword" maxlength="30" placeholder="Choose a password" required>
               </div>
                   
               <div class="form-group">
                 <label for="password2" class="sr-only" >Confirm password:</label>
                       
-                <input class="form-control" type="password" name="password2" id="password2" maxlength="30" placeholder="Confirm password">
+                <input class="form-control" type="password" name="password2" id="rpassword2" maxlength="30" placeholder="Confirm password" required>
               </div>
                   
             </div>
             
             <div class="modal-footer">
-              <input class="btn green" name="updateusername" type="submit" value="Submit">
+              <input class="btn green" name="updateusername" type="submit" value="Submit" id="resetpasswordbutton">
               
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
             </div>

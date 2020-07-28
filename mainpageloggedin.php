@@ -1,3 +1,17 @@
+<?php
+  session_start(); 
+
+  $userid   = "UserID";
+  $username = "Username";
+  $email    = "Email";
+
+  if(isset($_SESSION['userid']) && isset($_SESSION['username']) && isset($_SESSION['email'])){
+    $userid   = $_SESSION['userid'];
+    $username = $_SESSION['username'];
+    $email    = $_SESSION['email'];
+  }  
+?> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,11 +30,11 @@
         margin-top: 100px;
       }  
 
-      #notepad, #allnotes, #done {
+      #notePad, #allNotes, #done {
         display: none;
       }
 
-      #textpad {
+      #textPad {
         width: 100%;
         max-width: 100%;
         min-width: 100%;
@@ -36,6 +50,32 @@
 
       .buttons {
         margin-bottom: 20px;
+      }
+
+      .noteheader{
+        border: 1px solid grey;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        padding: 0 10px;
+        background: linear-gradient(#FFFFFF,#ECEAE7);
+      }
+          
+      .text{
+        font-size: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+          
+      .timetext{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+        
+      .notes{
+        margin-bottom: 100px;
       }
     </style>
 
@@ -63,15 +103,15 @@
 
     		<div class="navbar-collapse collapse" id="navbarCollapse">
     			<ul class="nav navbar-nav">
-    				<li><a href="#">Profile</a></li>
+    				<li><a href="profile.php">Profile</a></li>
     				<li><a href="#">Help</a></li>
     				<li><a href="#">Contact Us</a></li>
-            <li class="active"><a href="#">My Notes</a></li>
+            		<li class="active"><a href="#">My Notes</a></li>
     			</ul>
 
     			<ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Logged in as <b>username</b></a></li>
-    				<li><a href="#">Logout</a></li>
+            		<li><a href="#">Logged in as <b><?php echo $username ?></b></a></li>
+    				<li><a href="logout.php">Logout</a></li>
     			</ul>
     		</div>
     	</div>
@@ -79,20 +119,30 @@
 
     <!-- Container -->
     <div class="container-fluid" id="notecontainer">
+      
+      <!--Alert Message-->
+      <div id="alert" class="alert alert-danger collapse">
+        <a class="close" data-dismiss="alert">
+          &times;
+        </a>
+              
+        <p id="alertContent"></p>
+      </div>
+      
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
           <div class="buttons">
-            <button id="addnote" type="button" class="btn btn-info btn-lg">Add Note</button>
+            <button id="addNote" type="button" class="btn btn-info btn-lg">Add Note</button>
 
-            <button id="allnotes" type="button" class="btn btn-info btn-lg">All Notes</button>
+            <button id="allNotes" type="button" class="btn btn-info btn-lg">All Notes</button>
 
             <button id="done" type="button" class="btn green btn-lg pull-right">Done</button>
 
             <button id="edit" type="button" class="btn btn-info btn-lg pull-right">Edit</button>
           </div>
 
-          <div id="notepad">
-            <textarea rows="8" id="textpad"></textarea>
+          <div id="notePad">
+            <textarea rows="8" id="textPad"></textarea>
           </div>
 
           <div id="notes" class="notes">
@@ -111,5 +161,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="mynotes.js"></script>
   </body>
 </html>
