@@ -1,23 +1,22 @@
 //	Define error messages
-var missingUsername 	= "<p><strong>Please enter a username!</strong></p>";
-var missingEmail 		= "<p><strong>Please enter your email address!</strong></p>";
-var invalidEmail 		= "<p><strong>Please enter a valid email address!</strong></p>";	
-var missingPassword 	= "<p><strong>Please enter a password!</strong></p>";
-var invalidPassword 	= "<p><strong>Your password should be atleast 6 characters long and include one capital letter and one number!</strong></p>";
-var missingPassword2 	= "<p><strong>Please confirm your password!</strong></p>";
-var differentPassword 	= "<p><strong>Passwords don't match!</strong></p>";
+const missingUsername   = "<p><strong>Please enter a username!</strong></p>",
+	  missingEmail      = "<p><strong>Please enter your email address!</strong></p>",
+	  invalidEmail      = "<p><strong>Please enter a valid email address!</strong></p>",
+	  missingPassword   = "<p><strong>Please enter a password!</strong></p>",
+	  invalidPassword 	= "<p><strong>Your password should be atleast 6 characters long and include one capital letter and one number!</strong></p>",
+	  missingPassword2 	= "<p><strong>Please confirm your password!</strong></p>",
+	  differentPassword = "<p><strong>Passwords don't match!</strong></p>";
 
-$("#signupbutton").click( function(event){
+$("#signupbutton").click(function(event) {
 	
 	//Prevent default PHP processing
 	event.preventDefault();
 
-	var errors = ""; 	//Variable that stores all errors
-
-	var username 	= $('#username').val();
-	var email 		= $('#email').val();
-	var password 	= $('#password').val();
-	var password2 	= $('#password2').val();
+	let errors = "", 	//Variable that stores all errors
+		username 	= $('#username').val(),
+		email 		= $('#email').val(),
+		password 	= $('#password').val(),
+		password2 	= $('#password2').val();
 	
 	/*
 	console.log(username);
@@ -27,59 +26,48 @@ $("#signupbutton").click( function(event){
 	*/
 
 	//Get username
-	if(!username){
+	if (!username) {
 	    errors += missingUsername;
 	}
 
 	//Get email
-	if(!email){
+	if (!email) {
 	    errors += missingEmail;   
-	}
-
-	else{
-		var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	} else {
+		let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 		
-		if(!regex.test(email)){
+		if (!regex.test(email)) {
 		 	errors += invalidEmail;
 		}
 	}
 	
 
 	//Get passwords
-	if(!password){
+	if (!password) {
 	    errors += missingPassword; 
-	}
+	} else {
+		let regex1 = /[A-Z]/,
+			regex2 = /[0-9]/;
 
-	else{
-		var regex1 = /[A-Z]/;
-		var regex2 = /[0-9]/;
-
-		if(! (regex1.test(password) && regex2.test(password) && password.length >= 6) ){
+		if (!(regex1.test(password) && regex2.test(password) && password.length >= 6)) {
 			errors += invalidPassword;
-		}
-
-		else
-		{
+		} else {
 			if(!password2){
 				errors += missingPassword2;
-			}
-
-			else{
-				if(password != password2){
+			} else {
+				if (password !== password2) {
 					errors += differentPassword;
 				}
 			}
 		}
 	}
 
-	if(errors){
-		var errormsg = '<div class="alert alert-danger">' + errors + '</div>';
-		
+	if (errors) {
+		let errormsg = '<div class="alert alert-danger">' + errors + '</div>';
+
 		$("#signupmessage").html(errormsg);
 		//console.log(errors);
-	}
-
-	else{
+	} else {
 		$("#signupmessage").html("");
 		$("#signupform").submit();
 	}
@@ -110,82 +98,66 @@ $("#resetemailbuttonn").click( function(event){
 	//Prevent default PHP processing
 	event.preventDefault();
 
-	var errors = ""; 	//Variable that stores all errors
-
-	var email = $('#resemail').val();
-	console.log("LOL");
+	let errors = "", 	//Variable that stores all errors
+		email = $('#resemail').val();
 
 	//Get email
-	if(!email){
+	if (!email) {
 	    errors += missingEmail;   
-	}
-
-	else{
-		var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	} else {
+		const regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 		
-		if(!regex.test(email)){
+		if (!regex.test(email)) {
 		 	errors += invalidEmail;
 		}
 	}
 
-	if(errors){
-		var errormsg = '<div class="alert alert-danger">' + errors + '</div>';
+	if (errors) {
+		let errormsg = '<div class="alert alert-danger">' + errors + '</div>';
 		
 		$("#updateemailmessage").html(errormsg);
 		console.log(errors);
-	}
-
-	else{
+	} else {
 		$("#updateemailmessage").html("");
 		$("#updateemailform").submit();
 	}
 });
 
-$("#resetpasswordbutton").click( function(event){
+$("#resetpasswordbutton").click(function(event) {
 	
 	//Prevent default PHP processing
 	event.preventDefault();
 
-	var errors = ""; 	//Variable that stores all errors
-
-	var password 	= $('#rpassword').val();
-	var password2 	= $('#rpassword2').val();
+	let errors    = "", 	//Variable that stores all errors
+		password  = $('#rpassword').val(),
+		password2 = $('#rpassword2').val();
 
 	//Get passwords
-	if(!password){
+	if (!password) {
 	    errors += missingPassword; 
-	}
+	} else {
+		const regex1 = /[A-Z]/,
+			  regex2 = /[0-9]/;
 
-	else{
-		var regex1 = /[A-Z]/;
-		var regex2 = /[0-9]/;
-
-		if(! (regex1.test(password) && regex2.test(password) && password.length > 6) ){
+		if (!(regex1.test(password) && regex2.test(password) && password.length > 6) ) {
 			errors += invalidPassword;
-		}
-
-		else
-		{
-			if(!password2){
+		} else {
+			if (!password2) {
 				errors += missingPassword2;
-			}
-
-			else{
-				if(password != password2){
+			} else {
+				if (password !== password2) {
 					errors += differentPassword;
 				}
 			}
 		}
 	}
 
-	if(errors){
-		var errormsg = '<div class="alert alert-danger">' + errors + '</div>';
+	if (errors) {
+		let errormsg = '<div class="alert alert-danger">' + errors + '</div>';
 		
 		$("#updatepasswordmessage").html(errormsg);
 		//console.log(errors);
-	}
-
-	else{
+	} else {
 		$("#updatepasswordmessage").html("");
 		$("#updatepasswordform").submit();
 	}
